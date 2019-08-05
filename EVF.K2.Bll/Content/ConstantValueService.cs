@@ -130,5 +130,10 @@ namespace EVF.K2.Bll.Content
         /// </summary>
         public const string MSG_ERR_CANNOT_SAVE_SHARING_WORKLIST = "Can't save sharing worklist.";
 
+        /// <summary>
+        /// The key name of webconfig encrypt key. 
+        /// </summary>
+        public const string ENCRYPTION_KEY = "EncryptionKey";
+
     }
 }

@@ -7,6 +7,7 @@ using EVF.K2.Bll.Interfaces;
 using EVF.K2.Bll.Models;
 using EVF.K2.Bll.Content;
 using System.Linq;
+using EVF.K2.Bll.Components;
 
 namespace EVF.K2.Bll
 {
@@ -283,11 +284,11 @@ namespace EVF.K2.Bll
                 K2Profile = new K2ProfileModel
                 {
                     UserName = userName,
-                    Password = password
+                    Password = UtilityService.DecryptString(password, ConfigSetting.EncryptionKey)
                 },
-                Port = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantValueService.K2_PORT]),
-                Url = ConfigurationManager.AppSettings[ConstantValueService.K2_URL],
-                SecurityLabelName = ConfigurationManager.AppSettings[ConstantValueService.K2_SECURITYLABEL]
+                Port = Convert.ToInt32(ConfigSetting.K2WorkflowPort),
+                Url = ConfigSetting.K2Url,
+                SecurityLabelName = ConfigSetting.K2SecurityLabel
             };
             if (!string.IsNullOrEmpty(impersonateUser))
             {
@@ -395,9 +396,9 @@ namespace EVF.K2.Bll
             var managementServer = new SourceCode.Workflow.Management.WorkflowManagementServer();
             try
             {
-                model.K2Profile.UserName = ConfigurationManager.AppSettings[ConstantValueService.K2_ADMINUSERNAME];
-                model.K2Profile.Password = ConfigurationManager.AppSettings[ConstantValueService.K2_ADMINPASSWORD];
-                model.Port = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantValueService.K2_MANAGEMENT_PORT]);
+                model.K2Profile.UserName = ConfigSetting.K2AdminUserName;
+                model.K2Profile.Password = ConfigSetting.K2AdminPassword;
+                model.Port = Convert.ToInt32(ConfigSetting.K2ManagementPort);
                 string connectionString = this.GetConnectionString(model);
                 managementServer.Open(connectionString);
 
@@ -416,7 +417,7 @@ namespace EVF.K2.Bll
         /// <returns></returns>
         private string GetConnectionString(K2ConnectModel model)
         {
-            return string.Format(ConfigurationManager.ConnectionStrings[ConstantValueService.K2_WORKFLOWEMPLOYEE].ToString(),
+            return string.Format(ConfigSetting.K2ConnectionString,
                                    model.Url, model.Port, model.SecurityLabelName, model.K2Profile.UserName, model.K2Profile.Password);
         }
 

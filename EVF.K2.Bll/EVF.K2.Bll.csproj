@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ConfigSetting.cs" />
+    <Compile Include="Components\UtilityService.cs" />
     <Compile Include="Content\ConstantValueService.cs" />
     <Compile Include="Interfaces\ISmartObject.cs" />
     <Compile Include="Interfaces\IWorkflow.cs" />
